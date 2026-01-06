@@ -23,7 +23,7 @@ export default class PostgresStatement implements IStatementAdapter {
         let paramIndex = 1;
         const values: unknown[] = [];
 
-        const transformedQuery = this._query.replace(/@(\w+)/g, (_match, paramName) => {
+        const transformedQuery = this._query.replace(/@(\w+(?:\.\w+)?)/g, (_match, paramName) => {
             if (!paramMap.has(paramName)) {
                 paramMap.set(paramName, paramIndex++);
                 values.push((parameters as Record<string, unknown>)[paramName]);
