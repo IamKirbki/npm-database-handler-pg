@@ -7,7 +7,7 @@ export class PostgresSchemaBuilder implements AbstractSchemaBuilder {
     constructor(private _adapter: PostgresAdapter){}
 
     // eslint-disable-next-line no-unused-vars
-    async createTable(name: string, callback: (table: PostgresTableSchemaBuilder) => void) {
+    async createTable(name: string, callback: (table: PostgresTableSchemaBuilder) => void): Promise<void> {
         const tableBuilder = new PostgresTableSchemaBuilder();
         callback(tableBuilder);
 
@@ -15,13 +15,13 @@ export class PostgresSchemaBuilder implements AbstractSchemaBuilder {
         const query = `CREATE TABLE IF NOT EXISTS ${name} ${cols}`;
         
         const statement = await this._adapter.prepare(query);
-        statement.run();
+        await statement.run();
     }
 
-    async dropTable(name: string) {
+    async dropTable(name: string): Promise<void> {
         const query = `DROP TABLE IF EXISTS ${name}`;
         const statement = await this._adapter.prepare(query);
-        statement.run();
+        await statement.run();
     }
 
     // eslint-disable-next-line no-unused-vars
