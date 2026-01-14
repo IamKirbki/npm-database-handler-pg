@@ -75,6 +75,26 @@ export default class PostgresAdapter implements IDatabaseAdapter {
         }));
     }
 
+    async tableExists(tableName: string): Promise<boolean> {
+        const client = this._pool ? await this._pool.connect() : undefined;
+        if (!client) {
+            throw new Error("Database client is not available.");
+        }
+        
+        const query = `
+            SELECT EXISTS (
+                SELECT 1 
+                FROM information_schema.tables 
+                WHERE table_name = $1
+            )
+        `;
+
+        const res = await client.query(query, [tableName]);
+        client.release();
+
+        return res.rows[0].exists;
+    }
+
     async close(): Promise<void> {
         if (this._pool) {
             await this._pool.end();
