@@ -18,8 +18,9 @@ export class PostgresSchemaBuilder implements AbstractSchemaBuilder {
         await statement.run();
     }
 
-    async dropTable(name: string): Promise<void> {
-        const query = `DROP TABLE IF EXISTS ${name}`;
+    async dropTable(name: string, cascade?: boolean): Promise<void> {
+        let query = `DROP TABLE IF EXISTS ${name}`;
+        if (cascade) query += " CASCADE";
         const statement = await this._adapter.prepare(query);
         await statement.run();
     }
