@@ -79,7 +79,7 @@ export class PostgresTableSchemaBuilder extends SchemaTableBuilder {
             datatype: 'JSONB',
         });
     }
-    
+
     enum(name: string, values: string[]): this {
         // Postgres supports ENUM types, but they must be created before use.
         // For table column definition, use a CHECK constraint for inline enums.
@@ -164,7 +164,7 @@ export class PostgresTableSchemaBuilder extends SchemaTableBuilder {
             throw new Error('nullable() requires a previous column. Call a datatype method first.');
         }
         return this.addColumn({
-            constraints: ['NULLABLE'],
+            constraints: ['NULL'],
         });
     }
 
