@@ -163,6 +163,7 @@ export class PostgresTableSchemaBuilder extends SchemaTableBuilder {
         if (this.columns.length === 0) {
             throw new Error('nullable() requires a previous column. Call a datatype method first.');
         }
+
         return this.addColumn({
             constraints: ['NULL'],
         });
